@@ -23,9 +23,7 @@ public class User implements UserDetails, Principal {
     private String username;
     private String password;
     private String email;
-    private boolean enabled;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
+    private boolean enable;
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -33,6 +31,8 @@ public class User implements UserDetails, Principal {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
 
     @Override
@@ -73,6 +73,6 @@ public class User implements UserDetails, Principal {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enable;
     }
 }

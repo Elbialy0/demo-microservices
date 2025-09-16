@@ -13,3 +13,11 @@ spring:
       hibernate:
         format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mvc:
+    servlet:
+      path: /api/user
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user

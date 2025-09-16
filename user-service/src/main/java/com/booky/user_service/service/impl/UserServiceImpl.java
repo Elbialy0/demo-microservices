@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
         user.setEnable(true);
         userRepository.save(user);
-        
+
         tokenRepository.delete(token);
     }
 }

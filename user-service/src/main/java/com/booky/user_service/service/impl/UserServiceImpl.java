@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         rabbitMQMessage.setMessage(token.getToken());
         rabbitMQMessage.setEmail(user.getEmail());
         rabbitMQMessage.setMessageDate(new Date());
-        rabbitTemplate.convertAndSend(RabbitMQConfigurations.USER_EXCHANGE,
+        rabbitTemplate.convertAndSend(RabbitMQConfigurations.EMAIL_EXCHANGE,
                 RabbitMQConfigurations.ROUTING_KEY
                 ,rabbitMQMessage);
         userRepository.save(user);

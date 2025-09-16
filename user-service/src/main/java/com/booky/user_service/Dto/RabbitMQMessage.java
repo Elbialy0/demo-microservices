@@ -15,4 +15,5 @@ public class RabbitMQMessage {
     private String messageId;
     private String message;
     private Date messageDate;
+    private String email;
 }

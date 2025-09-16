@@ -1,6 +1,8 @@
 package com.booky.user_service.service.impl;
 
+import com.booky.user_service.Dto.RabbitMQMessage;
 import com.booky.user_service.Dto.UserDto;
+import com.booky.user_service.config.RabbitMQConfigurations;
 import com.booky.user_service.model.Token;
 import com.booky.user_service.model.User;
 import com.booky.user_service.repository.RoleRepository;
@@ -9,11 +11,15 @@ import com.booky.user_service.repository.UserRepository;
 import com.booky.user_service.service.TokenService;
 import com.booky.user_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.Collections;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final TokenService tokenService;
     private final TokenRepository tokenRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public void register(UserDto userDto) {
@@ -37,7 +44,14 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
         Token token = tokenService.createToken(user);
         // todo send email with the token
-
+        RabbitMQMessage rabbitMQMessage = new RabbitMQMessage();
+        rabbitMQMessage.setMessageId(UUID.randomUUID().toString());
+        rabbitMQMessage.setMessage(token.getToken());
+        rabbitMQMessage.setEmail(user.getEmail());
+        rabbitMQMessage.setMessageDate(new Date());
+        rabbitTemplate.convertAndSend(RabbitMQConfigurations.USER_EXCHANGE,
+                RabbitMQConfigurations.ROUTING_KEY
+                ,rabbitMQMessage);
         userRepository.save(user);
     }
 

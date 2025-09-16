@@ -15,11 +15,11 @@ public class RabbitMQConfigurations {
         return new Queue("user.queue",true);
     }
     @Bean
-    public DirectExchange exampleExchange() {
+    public DirectExchange userExchange() {
         return new DirectExchange("user.exchange");
     }
     @Bean
-    public Binding exampleBinding(Queue exampleQueue, DirectExchange exampleExchange) {
+    public Binding userBinding(Queue exampleQueue, DirectExchange exampleExchange) {
         return BindingBuilder.bind(exampleQueue)
                 .to(exampleExchange)
                 .with("routing.key");

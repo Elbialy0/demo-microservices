@@ -1,0 +1,21 @@
+server:
+  port: 7070
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    config:
+      enabled: false
+
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: http://localhost:8080
+              predicates:
+                - Path=/hello
+  main:
+    web-application-type: reactive

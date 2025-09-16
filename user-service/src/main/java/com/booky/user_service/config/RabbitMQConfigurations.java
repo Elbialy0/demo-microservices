@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfigurations {
 
-    public static final String USER_QUEUE = "user.queue";
-    public static final String USER_EXCHANGE = "user.exchange";
+    public static final String EMAIL_QUEUE = "email-queue";
+    public static final String EMAIL_EXCHANGE = "user.exchange";
     public static final String ROUTING_KEY = "routing.key";
 
     @Bean
-    public Queue userQueue(){
-        return new Queue(USER_QUEUE,true);
+    public Queue emailQueue(){
+        return new Queue(EMAIL_QUEUE,true);
     }
     @Bean
     public DirectExchange userExchange() {
-        return new DirectExchange(USER_EXCHANGE);
+        return new DirectExchange(EMAIL_EXCHANGE);
     }
     @Bean
     public Binding userBinding(Queue exampleQueue, DirectExchange exampleExchange) {

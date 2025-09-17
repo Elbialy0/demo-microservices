@@ -4,3 +4,25 @@ spring:
     port: 5672
     username: user
     password: password
+  mail:
+    host: localhost
+    port: 1025
+    username: bialy
+    password: bialy
+    protocol: smtp
+    Properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+server:
+  port: 5050
+
+
+
+

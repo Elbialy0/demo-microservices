@@ -2,6 +2,7 @@ package com.booky.book_service.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +35,7 @@ public class JwtService {
     }
 
     private SecretKey getSecretKey(){
-        byte [] encodedKey = SECRET.getBytes();
+        byte [] encodedKey = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(encodedKey);
     }
 }

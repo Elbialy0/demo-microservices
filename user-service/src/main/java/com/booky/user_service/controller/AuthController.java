@@ -1,6 +1,8 @@
 package com.booky.user_service.controller;
 
+import com.booky.user_service.Dto.LoginDto;
 import com.booky.user_service.Dto.UserDto;
+import com.booky.user_service.Dto.UserLogin;
 import com.booky.user_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,10 @@ public class AuthController {
     @GetMapping("/emails")
     public ResponseEntity<List<String>> getEmails(){
         return ResponseEntity.ok().body(userService.findAllMails());
+    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginDto> login(@RequestBody UserLogin user){
+        return ResponseEntity.ok().body(new LoginDto(userService.login(user)));
+
     }
 }

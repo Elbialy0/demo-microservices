@@ -21,5 +21,13 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+  mail-dev:
+    container_name: mail-dev-mr
+    image: maildev/maildev:latest
+    ports:
+      - "3080:3080"
+      - "1025:1025"
+    command: [ "--web", "3080", "--smtp", "1025", "--web-ip", "0.0.0.0" ]
+    restart: unless-stopped
 volumes:
   postgres_data: {}

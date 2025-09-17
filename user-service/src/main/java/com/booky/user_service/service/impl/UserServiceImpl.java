@@ -11,6 +11,7 @@ import com.booky.user_service.repository.UserRepository;
 import com.booky.user_service.service.TokenService;
 import com.booky.user_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserDto userDto) {
+        log.info("Registering user {}", userDto.userName());
         if (userRepository.findByUsername(userDto.userName()).isPresent()){
             // todo handle user exist exception
             throw new RuntimeException("Username is exist");
@@ -43,6 +46,7 @@ public class UserServiceImpl implements UserService {
                 .username(userDto.userName()).build();
         user = userRepository.save(user);
         Token token = tokenService.createToken(user);
+        log.info("Token created for user {}", userDto.userName());
         // todo send email with the token
         RabbitMQMessage rabbitMQMessage = new RabbitMQMessage();
         rabbitMQMessage.setMessageId(UUID.randomUUID().toString());
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
         rabbitTemplate.convertAndSend(RabbitMQConfigurations.EMAIL_EXCHANGE,
                 RabbitMQConfigurations.ROUTING_KEY
                 ,rabbitMQMessage);
-        userRepository.save(user);
+
     }
 
     @Override

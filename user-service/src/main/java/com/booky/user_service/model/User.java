@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.awt.print.Book;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,7 @@ public class User implements UserDetails, Principal {
     private List<Role> roles;
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+
 
 
     @Override

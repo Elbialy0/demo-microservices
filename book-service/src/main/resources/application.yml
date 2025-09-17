@@ -24,3 +24,5 @@ spring:
     password: password
 server:
   port: 6060
+secret:
+  key: jgkjajkjalgkaljgklhajlajlkmjeijlfjsdjijefje

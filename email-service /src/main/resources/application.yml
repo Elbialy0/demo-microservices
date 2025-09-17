@@ -10,13 +10,13 @@ spring:
     username: bialy
     password: bialy
     protocol: smtp
-    Properties:
+    properties:
       mail:
         smtp:
-          auth: true
+          auth: false
           starttls:
-            enable: true
-            required: true
+            enable: false
+            required: false
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000

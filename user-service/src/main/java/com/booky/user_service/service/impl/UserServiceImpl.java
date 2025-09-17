@@ -20,6 +20,7 @@ import java.sql.Time;
 import java.util.Collections;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -77,5 +78,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         tokenRepository.delete(token);
+    }
+
+    @Override
+    public List<String> findAllMails() {
+        return userRepository.findAll().stream().map(User::getEmail).toList();
     }
 }

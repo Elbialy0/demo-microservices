@@ -4,4 +4,8 @@ import com.booky.book_service.dto.BookDto;
 
 public interface BookService {
     void addBook(BookDto book);
+
+    BookDto getBook(Long id);
+
+    void deleteBook(Long id);
 }

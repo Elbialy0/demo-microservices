@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -20,6 +22,9 @@ public class AuthController {
     public ResponseEntity<Void> verification(@PathVariable String otp){
         userService.verify(otp);
         return ResponseEntity.ok().build();
-
+    }
+    @GetMapping("/emails")
+    public ResponseEntity<List<String>> getEmails(){
+        return ResponseEntity.ok().body(userService.findAllMails());
     }
 }

@@ -1,4 +1,4 @@
-package com.booky.email_service.config;
+package com.booky.book_service.config;
 
 
 import org.springframework.amqp.core.*;
@@ -12,35 +12,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfigurations {
 
-    public static final String EMAIL_QUEUE = "email-queue";
-    public static final String EMAIL_EXCHANGE = "user.exchange";
-    public static final String ROUTING_KEY = "routing.key";
     public static final String BOOK_QUEUE = "book-queue";
-    public static final String BOOK_ROUTING_KEY = "book.key";
+    public static final String USER_EXCHANGE = "user.exchange";
+    public static final String ROUTING_KEY = "book.key";
 
     @Bean
-    public Queue bookQueue(){
+    public Queue emailQueue(){
         return new Queue(BOOK_QUEUE,true);
     }
     @Bean
-    public Queue emailQueue(){
-        return new Queue(EMAIL_QUEUE,true);
-    }
-    @Bean
     public DirectExchange userExchange() {
-        return new DirectExchange(EMAIL_EXCHANGE);
+        return new DirectExchange(USER_EXCHANGE);
     }
     @Bean
-    public Binding userBinding() {
-        return BindingBuilder.bind(emailQueue())
-                .to(userExchange())
+    public Binding userBinding(Queue exampleQueue, DirectExchange exampleExchange) {
+        return BindingBuilder.bind(exampleQueue)
+                .to(exampleExchange)
                 .with(ROUTING_KEY);
-    }
-    @Bean
-    public Binding bookBinding() {
-        return BindingBuilder.bind(bookQueue())
-                .to(userExchange())
-                .with(BOOK_ROUTING_KEY);
     }
     @Bean
     public MessageConverter messageConverter(){

@@ -4,24 +4,25 @@ import com.booky.book_service.dto.BookDto;
 import com.booky.book_service.model.Book;
 import com.booky.book_service.service.BookService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/books")
 @RequiredArgsConstructor
+@Slf4j
 public class BookController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> addNewBook(BookDto book){
+    public ResponseEntity<Void> addNewBook(@RequestBody BookDto book){
+        log.info("Adding new book {}", book);
         bookService.addBook(book);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable Long id){
+    public ResponseEntity<BookDto> getBook(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(bookService.getBook(id));
     }
     @DeleteMapping("/{id}")

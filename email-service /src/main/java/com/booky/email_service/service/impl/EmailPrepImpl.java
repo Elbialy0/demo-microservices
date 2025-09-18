@@ -16,7 +16,7 @@ public class EmailPrepImpl implements EmailPrep {
 
     @Override
     public Map<String,Object> prepareVerificationEmail(String otp) {
-        return Map.of("OTP",otp,"url",String.format(URL,otp));
+        return Map.of("otp",otp,"url",String.format(URL,otp));
     }
 
     @Override

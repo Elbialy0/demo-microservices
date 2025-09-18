@@ -17,7 +17,7 @@ import java.util.List;
 public class JwtService {
     @Value("${secret.key}")
     private  String SECRET;
-    private final Long EXPIRATION_TIME = 1000000L;
+    private final Long EXPIRATION_TIME = 604800000L;
 
     public String generateToken(User user){
         List<String > roles = user.getRoles().stream()
@@ -28,12 +28,12 @@ public class JwtService {
                 .claim("authorities",roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
-                .signWith(getKey())
+                .signWith(getSecretKey())
                 .compact();
 
     }
-    public SecretKey getKey(){
-        byte[] key = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(key);
+    private SecretKey getSecretKey(){
+        byte [] encodedKey = Decoders.BASE64.decode(SECRET);
+        return Keys.hmacShaKeyFor(encodedKey);
     }
 }

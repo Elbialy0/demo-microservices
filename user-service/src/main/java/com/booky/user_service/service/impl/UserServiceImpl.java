@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.Collections;
 import java.time.LocalDateTime;
 import java.util.Date;
